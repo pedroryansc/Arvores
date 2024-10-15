@@ -1,9 +1,9 @@
-package arvores;
+package arvoreBinaria;
 
 public class ArvoreBinaria {
 
 	private class Nodo{
-		
+	
 		private int chave;
 		private Nodo dir, esq;
 		
