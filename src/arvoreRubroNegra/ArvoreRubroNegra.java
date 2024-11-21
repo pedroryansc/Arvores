@@ -33,7 +33,7 @@ public class ArvoreRubroNegra {
 	public void inserir(int valor) {
 		Nodo novoNodo = new Nodo(valor);
 		raiz = inserirNodo(raiz, novoNodo);
-		corrigirInsercao(novoNodo); // Corrige eventuais violações das propriedades da Árvore Rubro-Negra
+			corrigirInsercao(novoNodo); // Corrige eventuais violações das propriedades da Árvore Rubro-Negra
 	}
 	
 	private Nodo inserirNodo(Nodo atual, Nodo novoNodo) {
@@ -78,13 +78,16 @@ public class ArvoreRubroNegra {
 				else {
 					// Caso 1.2.1: O nó é filho direito (rotação à esquerda)
 					if(nodo == pai.direito) {
+						rotacaoEsquerda(pai);
 						nodo = pai;
-						rotacaoEsquerda(nodo);
+						pai = nodo.pai;
 					}
 					// Caso 1.2.2: O nó é filho esquerdo (rotação à direita)
-					pai.cor = Cor.PRETO;
-					avo.cor = Cor.VERMELHO;
 					rotacaoDireita(avo);
+					Cor auxCor = pai.cor;
+					pai.cor = avo.cor;
+					avo.cor = auxCor;
+					nodo = pai;
 				}
 			// Caso 2: Pai do nó é filho direito do avô
 			} else {
@@ -101,13 +104,16 @@ public class ArvoreRubroNegra {
 				else {
 					// Caso 2.2.1: O nó é filho esquerdo (rotação à direita)
 					if(nodo == pai.esquerdo) {
+						rotacaoDireita(pai);
 						nodo = pai;
-						rotacaoDireita(nodo);
+						pai = nodo.pai;
 					}
 					// Caso 2.2.2: O nó é filho direito (rotação à esquerda)
-					pai.cor = Cor.PRETO;
-					avo.cor = Cor.VERMELHO;
 					rotacaoEsquerda(avo);
+					Cor auxCor = pai.cor;
+					pai.cor = avo.cor;
+					avo.cor = auxCor;
+					nodo = pai;
 				}
 			}
 		}
@@ -146,11 +152,11 @@ public class ArvoreRubroNegra {
 		
 		novoNodo.pai = nodo.pai;
 		
-		if(nodo.pai != null)
+		if(nodo.pai == null)
 			raiz = novoNodo;
-		else if(nodo == nodo.pai.direito)
+		else if(nodo.pai != null && nodo == nodo.pai.direito)
 			nodo.pai.direito = novoNodo;
-		else
+		else if(nodo.pai != null)
 			nodo.pai.esquerdo = novoNodo;
 		
 		novoNodo.direito = nodo;
@@ -167,10 +173,10 @@ public class ArvoreRubroNegra {
 	
 	private void mostrarArvoreRecursiva(Nodo nodo, String prefixo, boolean isFilhoDireito) {
 		if(nodo != null) {
-			System.out.println(prefixo + (isFilhoDireito ? "|--- " : "|--- ") + nodo.valor + " (" + nodo.cor + ")");
+			System.out.println(prefixo + (isFilhoDireito ? "D|--- " : "E|--- ") + nodo.valor + " (" + nodo.cor + ")");
 			String novoPrefixo = prefixo + (isFilhoDireito ? " " : "|");
-			mostrarArvoreRecursiva(nodo.direito, novoPrefixo, true);
 			mostrarArvoreRecursiva(nodo.esquerdo, novoPrefixo, false);
+			mostrarArvoreRecursiva(nodo.direito, novoPrefixo, true);
 		}
 	}
 	
@@ -197,6 +203,18 @@ public class ArvoreRubroNegra {
 		}
 		
 		return quantNodos;
+	}
+	
+	public void mostrarOrdemCrescente() {
+		mostrarCrescenteRecursivo(raiz);
+	}
+	
+	private void mostrarCrescenteRecursivo(Nodo atual) {
+		if(atual != null) {
+			mostrarCrescenteRecursivo(atual.esquerdo);
+			System.out.println(atual.valor);
+			mostrarCrescenteRecursivo(atual.direito);
+		}
 	}
 	
 }
