@@ -33,7 +33,7 @@ public class ArvoreRubroNegra {
 	public void inserir(int valor) {
 		Nodo novoNodo = new Nodo(valor);
 		raiz = inserirNodo(raiz, novoNodo);
-			corrigirInsercao(novoNodo); // Corrige eventuais violações das propriedades da Árvore Rubro-Negra
+		corrigirInsercao(novoNodo); // Corrige eventuais violações das propriedades da Árvore Rubro-Negra
 	}
 	
 	private Nodo inserirNodo(Nodo atual, Nodo novoNodo) {
@@ -154,9 +154,9 @@ public class ArvoreRubroNegra {
 		
 		if(nodo.pai == null)
 			raiz = novoNodo;
-		else if(nodo.pai != null && nodo == nodo.pai.direito)
+		else if(nodo == nodo.pai.direito)
 			nodo.pai.direito = novoNodo;
-		else if(nodo.pai != null)
+		else
 			nodo.pai.esquerdo = novoNodo;
 		
 		novoNodo.direito = nodo;

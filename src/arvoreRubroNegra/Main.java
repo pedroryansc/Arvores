@@ -7,6 +7,10 @@ public class Main {
 		
 		arvore.contarVermelhosPretos();
 		
+		arvore.inserir(4);
+		arvore.inserir(3);
+		arvore.inserir(2);
+		/*
 		arvore.inserir(360);
 		arvore.inserir(940);
 		arvore.inserir(1);
@@ -22,6 +26,7 @@ public class Main {
 		arvore.inserir(300);
 		arvore.inserir(638);
 		arvore.inserir(3);
+		*/
 		
 		arvore.mostrarArvore();
 		
